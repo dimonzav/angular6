@@ -39,15 +39,8 @@ namespace angular6
             else
             {
                 app.UseExceptionHandler("/Error");
-#if (!NoHttps)
-                app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-#else
-            }
-
-#endif
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
@@ -64,6 +57,15 @@ namespace angular6
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
                 spa.Options.SourcePath = "ClientApp";
+
+                spa.UseSpaPrerendering(options =>
+                {
+                    options.BootModulePath = $"{spa.Options.SourcePath}/dist-server/main.js";
+                    options.BootModuleBuilder = env.IsDevelopment()
+                        ? new AngularCliBuilder(npmScript: "build:ssr")
+                        : null;
+                    options.ExcludeUrls = new[] { "/sockjs-node" };
+                });
 
                 if (env.IsDevelopment())
                 {
