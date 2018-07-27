@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Company.WebApplication1
+namespace angular6
 {
     public class Startup
     {
